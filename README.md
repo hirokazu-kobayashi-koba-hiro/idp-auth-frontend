@@ -14,15 +14,15 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3100](http://localhost:3100) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+```shell
+curl -v 'http://localhost:8080/67e7eae6-62b0-4500-9eff-87459f63fc66/api/v1/authorizations?scope=openid+profile+phone+emailaccount+transfers&response_type=code&client_id=clientSecretPost&redirect_uri=https%3A%2F%2Fwww.certification.openid.net%2Ftest%2Fa%2Fidp_oidc_basic%2Fcallback&state=aiueo&organization_id=123&organization_name=test'
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 
