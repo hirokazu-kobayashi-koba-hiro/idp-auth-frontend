@@ -22,7 +22,7 @@ export default function SignUp() {
       })
     })
     if (response.ok) {
-      router.push(`/authorize?id=${id}&tenant_id=${tenantId}`);
+      router.push(`/signup/webauthn?id=${id}&tenant_id=${tenantId}`);
       return
     }
 

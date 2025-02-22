@@ -69,7 +69,7 @@ export default function SignIn() {
       })
     })
     if (response.ok) {
-      router.push(`/authorize?id=${id}&tenant_id=${tenantId}`)
+      router.push(`/signin/webauthn?id=${id}&tenant_id=${tenantId}`)
     }
   }
 
