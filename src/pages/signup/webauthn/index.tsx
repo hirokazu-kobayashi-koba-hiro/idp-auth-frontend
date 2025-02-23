@@ -3,12 +3,13 @@ import {Container, Typography, Button, Box, CircularProgress, Card, CardContent}
 import { v4 as uuidv4 } from 'uuid';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import {useRouter} from "next/router";
-import { backendUrl } from "@/pages/_app";
+import {backendUrl, useAppContext} from "@/pages/_app";
 
 export default function Register() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
+    const { userId } = useAppContext();
     const { id, tenant_id: tenantId } = router.query;
 
     const handleRegister = async () => {
@@ -22,12 +23,14 @@ export default function Register() {
             });
             const { challenge } = await res.json();
 
+            const userIdBytes = new TextEncoder().encode(userId || "");
+
             const credential = await navigator.credentials.create({
                 publicKey: {
                     challenge: new Uint8Array(atob(challenge).split("").map(c => c.charCodeAt(0))),
                     rp: { name: "Passkey Demo" },
                     user: {
-                        id: new Uint8Array(16),
+                        id: userIdBytes,
                         name: uuidv4(),
                         displayName: "test"
                     },

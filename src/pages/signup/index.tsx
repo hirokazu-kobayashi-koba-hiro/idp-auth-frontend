@@ -1,12 +1,13 @@
 import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { backendUrl } from "@/pages/_app";
+import {backendUrl, useAppContext} from "@/pages/_app";
 import { useRouter } from "next/router";
 
 export default function SignUp() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const router = useRouter();
+  const { setUserId } = useAppContext();
   const { id, tenant_id: tenantId } = router.query;
 
   const handleClick = async () => {
@@ -22,6 +23,9 @@ export default function SignUp() {
       })
     })
     if (response.ok) {
+      const body = await response.json();
+      console.log(body)
+      setUserId(body.id)
       router.push(`/signup/webauthn?id=${id}&tenant_id=${tenantId}`);
       return
     }
