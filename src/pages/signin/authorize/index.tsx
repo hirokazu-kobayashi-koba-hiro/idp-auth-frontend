@@ -5,30 +5,23 @@ import {
   Card,
   Chip,
   Container,
-  Divider,
-  Link,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { backendUrl } from "@/pages/_app";
 import PolicyIcon from "@mui/icons-material/Policy";
 import InfoIcon from "@mui/icons-material/Info";
 import { Loading } from "@/components/Loading";
-import KeyIcon from "@mui/icons-material/Key";
-import { SignupStepper } from "@/components/SigninStepper";
+import { SignupStepper } from "@/components/SignupStepper";
 
-export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Authorize() {
   const router = useRouter();
   const { id, tenant_id: tenantId } = router.query;
   const { data, isPending } = useQuery({
@@ -67,73 +60,44 @@ export default function SignIn() {
     }
   };
 
-  const handleNext = async () => {
+  const handleApprove = async () => {
     const response = await fetch(
-      `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/password-authentication`,
+      `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/authorize`,
       {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: email,
-          password: password,
-        }),
       },
     );
-    if (response.ok) {
-      router.push(`/signin/webauthn?id=${id}&tenant_id=${tenantId}`);
+    const body = await response.json();
+    console.log(response.status, body);
+    if (body.redirect_uri) {
+      window.location.href = body.redirect_uri;
     }
   };
 
-  useEffect(() => {
-    const execute = async () => {
-      const response = await fetch(
-        `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/authorize-with-session`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      if (!response.ok) {
-        console.error(response);
-        return;
-      }
-      const body = await response.json();
-      console.log(response.status, body);
-      if (body.redirect_uri) {
-        window.location.href = body.redirect_uri;
-      }
-    };
-    console.log(data);
-    if (data && data.session_enabled === true) {
-      execute();
-    }
-  }, [data]);
-
   if (isPending) return <Loading />;
   if (!data) return <Loading />;
-  if (data && data.session_enabled) return <Loading />;
 
   return (
     <>
       <Container maxWidth={"sm"}>
-        <Paper sx={{ m: 4, p: 4 }}>
+        <Paper sx={{ m: 4, p: 4, boxShadow: 3 }}>
           <Stack spacing={4}>
             <Typography variant={"h5"}>Sign In</Typography>
 
-            <SignupStepper activeStep={0} />
+            <SignupStepper activeStep={3} />
 
             <Box display={"flex"} gap={4} alignItems={"center"}>
               <Avatar src={data.logo_uri} sx={{ width: 80, height: 80 }} />
               <Typography variant="h5">{data.client_name}</Typography>
             </Box>
 
-            <Typography variant="h6">request scope</Typography>
+            <Typography variant="h6" sx={{ mt: 4 }}>
+              request scope
+            </Typography>
 
             <Stack
               direction="row"
@@ -150,28 +114,6 @@ export default function SignIn() {
                 />
               ))}
             </Stack>
-
-            <Box mt={2} display="flex" flexDirection={"column"} sx={{ gap: 2 }}>
-              <TextField
-                name={"email"}
-                label={"email"}
-                placeholder={"test@gmail.com"}
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <TextField
-                name={"password"}
-                label={"password"}
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-            </Box>
 
             <List sx={{ mt: 2 }}>
               <ListItem>
@@ -212,35 +154,16 @@ export default function SignIn() {
             <Box
               sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
             >
-              <Button
-                variant="contained"
-                color="error"
-                onClick={handleCancel}
-                sx={{ textTransform: "none" }}
-              >
-                Cancel
+              <Button variant="contained" color="error" onClick={handleCancel}>
+                cancel
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleNext}
-                sx={{ textTransform: "none" }}
+                onClick={handleApprove}
               >
-                Next
+                approve
               </Button>
-            </Box>
-            <Box sx={{ mt: 2 }}>
-              <Divider />
-            </Box>
-            <Box sx={{ mt: 2, gap: 2 }} display="flex">
-              <Typography>{"Dont have an account?"}</Typography>
-              <Link
-                onClick={() => {
-                  router.push(`/signup?id=${id}&tenant_id=${tenantId}`);
-                }}
-              >
-                Sign Up
-              </Link>
             </Box>
           </Stack>
         </Paper>
