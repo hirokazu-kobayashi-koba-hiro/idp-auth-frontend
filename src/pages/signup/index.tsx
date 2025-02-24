@@ -22,15 +22,24 @@ export default function SignUp() {
         password: password,
       })
     })
-    if (response.ok) {
-      const body = await response.json();
-      console.log(body)
-      setUserId(body.id)
-      router.push(`/signup/webauthn?id=${id}&tenant_id=${tenantId}`);
+    if (!response.ok) {
+      console.error(response.status)
       return
     }
+    const body = await response.json();
+    console.log(body)
+    setUserId(body.id)
 
-    console.error(response.status)
+    const sendingEmailResponse = await fetch(`${backendUrl}/${tenantId}/api/v1/authorizations/${id}/email-verification/challenge`, {
+      method: "POST",
+      credentials: "include",
+    })
+
+    if (!sendingEmailResponse.ok) {
+      console.error("sending email verification code is failed")
+    }
+
+    router.push(`/signup/email?id=${id}&tenant_id=${tenantId}`);
   }
 
   return (
