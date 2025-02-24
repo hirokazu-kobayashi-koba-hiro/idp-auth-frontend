@@ -31,11 +31,12 @@ export default function Login() {
         },
       );
       const { challenge } = await res.json();
+      const decodedChallenge = challenge.replace(/-/g, "+").replace(/_/g, "/");
 
       const credential = await navigator.credentials.get({
         publicKey: {
           challenge: new Uint8Array(
-            atob(challenge)
+            atob(decodedChallenge)
               .split("")
               .map((c) => c.charCodeAt(0)),
           ),
@@ -87,7 +88,7 @@ export default function Login() {
               disabled={loading}
               sx={{ width: "100%", textTransform: "none" }}
             >
-              {loading ? <CircularProgress size={24} /> : "Login with Passkey"}
+              {loading ? <CircularProgress size={24} /> : "Next"}
             </Button>
           </Box>
           {message && (

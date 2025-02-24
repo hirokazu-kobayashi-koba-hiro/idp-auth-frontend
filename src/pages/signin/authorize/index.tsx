@@ -115,21 +115,21 @@ export default function Authorize() {
               ))}
             </Stack>
 
-            <List sx={{ mt: 2 }}>
+            <List sx={{ p :0}}>
               <ListItem>
                 <ListItemIcon>
                   <PolicyIcon color="action" />
                 </ListItemIcon>
                 <ListItemText
-                  primary={
-                    <a
-                      href={data.tos_uri}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      term of use
-                    </a>
-                  }
+                    primary={
+                      <a
+                          href={data.tos_uri}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                      >
+                        term of use
+                      </a>
+                    }
                 />
               </ListItem>
 
@@ -138,21 +138,21 @@ export default function Authorize() {
                   <InfoIcon color="action" />
                 </ListItemIcon>
                 <ListItemText
-                  primary={
-                    <a
-                      href={data.policy_uri}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      privacy policy
-                    </a>
-                  }
+                    primary={
+                      <a
+                          href={data.policy_uri}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                      >
+                        privacy policy
+                      </a>
+                    }
                 />
               </ListItem>
             </List>
 
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+              sx={{ display: "flex", justifyContent: "space-between" }}
             >
               <Button variant="contained" color="error" onClick={handleCancel}>
                 cancel

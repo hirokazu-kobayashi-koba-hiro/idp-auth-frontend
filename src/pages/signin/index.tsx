@@ -6,6 +6,7 @@ import {
   Chip,
   Container,
   Divider,
+  InputAdornment,
   Link,
   List,
   ListItem,
@@ -25,6 +26,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { Loading } from "@/components/Loading";
 import KeyIcon from "@mui/icons-material/Key";
 import { SignupStepper } from "@/components/SigninStepper";
+import { Email, Lock } from "@mui/icons-material";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -133,47 +135,44 @@ export default function SignIn() {
               <Typography variant="h5">{data.client_name}</Typography>
             </Box>
 
-            <Typography variant="h6">request scope</Typography>
+            <TextField
+              name={"email"}
+              label={"email"}
+              placeholder={"test@gmail.com"}
+              inputMode="email"
+              value={email}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Email />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+            <TextField
+              name={"password"}
+              label={"password"}
+              type="password"
+              value={password}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => {
+                navigator.credentials.preventSilentAccess()
+                setPassword(e.target.value);
+              }}
+            />
 
-            <Stack
-              direction="row"
-              spacing={1}
-              justifyContent="center"
-              sx={{ mt: 2 }}
-            >
-              {data.scopes.map((scope: string) => (
-                <Chip
-                  key={scope}
-                  label={scope}
-                  color="primary"
-                  variant="outlined"
-                />
-              ))}
-            </Stack>
-
-            <Box mt={2} display="flex" flexDirection={"column"} sx={{ gap: 2 }}>
-              <TextField
-                name={"email"}
-                label={"email"}
-                placeholder={"test@gmail.com"}
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <TextField
-                name={"password"}
-                label={"password"}
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-            </Box>
-
-            <List sx={{ mt: 2 }}>
+            <List sx={{ p :0}}>
               <ListItem>
                 <ListItemIcon>
                   <PolicyIcon color="action" />
@@ -209,9 +208,7 @@ export default function SignIn() {
               </ListItem>
             </List>
 
-            <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
-            >
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Button
                 variant="contained"
                 color="error"
@@ -223,16 +220,15 @@ export default function SignIn() {
               <Button
                 variant="contained"
                 color="primary"
+                disabled={!email || !password}
                 onClick={handleNext}
                 sx={{ textTransform: "none" }}
               >
                 Next
               </Button>
             </Box>
-            <Box sx={{ mt: 2 }}>
-              <Divider />
-            </Box>
-            <Box sx={{ mt: 2, gap: 2 }} display="flex">
+            <Divider />
+            <Box sx={{ gap: 2 }} display="flex">
               <Typography>{"Dont have an account?"}</Typography>
               <Link
                 onClick={() => {

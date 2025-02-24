@@ -89,13 +89,12 @@ export default function Authorize() {
 
             <SignupStepper activeStep={3} />
 
-            <Avatar
-              src={data.logo_uri}
-              sx={{ width: 80, height: 80, mx: "auto", mb: 2 }}
-            />
-            <Typography variant="h5">{data.client_name}</Typography>
+            <Box display={"flex"} gap={4} alignItems={"center"}>
+              <Avatar src={data.logo_uri} sx={{ width: 80, height: 80 }} />
+              <Typography variant="h5">{data.client_name}</Typography>
+            </Box>
 
-            <Typography variant="h6" sx={{ mt: 4 }}>
+            <Typography variant="h6">
               request scope
             </Typography>
 
@@ -115,7 +114,7 @@ export default function Authorize() {
               ))}
             </Stack>
 
-            <List sx={{ mt: 2 }}>
+            <List sx={{ p: 0 }}>
               <ListItem>
                 <ListItemIcon>
                   <PolicyIcon color="action" />
@@ -152,17 +151,18 @@ export default function Authorize() {
             </List>
 
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+              sx={{ display: "flex", justifyContent: "space-between"}}
             >
-              <Button variant="contained" color="error" onClick={handleCancel}>
-                cancel
+              <Button variant="contained" color="error" onClick={handleCancel} sx={{ textTransform: "none"}}>
+                Cancel
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleApprove}
+                sx={{ textTransform: "none"}}
               >
-                approve
+                Approve
               </Button>
             </Box>
           </Stack>

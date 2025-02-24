@@ -33,13 +33,14 @@ export default function Register() {
         },
       );
       const { challenge } = await res.json();
+      const decodedChallenge = challenge.replace(/-/g, "+").replace(/_/g, "/");
 
       const userIdBytes = new TextEncoder().encode(userId || "");
 
       const credential = await navigator.credentials.create({
         publicKey: {
           challenge: new Uint8Array(
-            atob(challenge)
+            atob(decodedChallenge)
               .split("")
               .map((c) => c.charCodeAt(0)),
           ),
@@ -102,7 +103,7 @@ export default function Register() {
               disabled={loading}
               sx={{ width: "100%", textTransform: "none" }}
             >
-              {loading ? <CircularProgress size={24} /> : "Register Now"}
+              {loading ? <CircularProgress size={24} /> : "Next"}
             </Button>
           </Box>
           {message && (
