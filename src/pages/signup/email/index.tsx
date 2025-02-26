@@ -14,7 +14,6 @@ import { backendUrl } from "@/pages/_app";
 import { useState } from "react";
 import { SignupStepper } from "@/components/SignupStepper";
 import { Email } from "@mui/icons-material";
-import KeyIcon from "@mui/icons-material/Key";
 
 const EmailVerification = () => {
   const router = useRouter();

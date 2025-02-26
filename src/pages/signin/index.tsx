@@ -2,8 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
-  Chip,
   Container,
   Divider,
   InputAdornment,
@@ -24,7 +22,6 @@ import { backendUrl } from "@/pages/_app";
 import PolicyIcon from "@mui/icons-material/Policy";
 import InfoIcon from "@mui/icons-material/Info";
 import { Loading } from "@/components/Loading";
-import KeyIcon from "@mui/icons-material/Key";
 import { SignupStepper } from "@/components/SigninStepper";
 import { Email, Lock } from "@mui/icons-material";
 
@@ -167,12 +164,12 @@ export default function SignIn() {
                 ),
               }}
               onChange={(e) => {
-                navigator.credentials.preventSilentAccess()
+                navigator.credentials.preventSilentAccess();
                 setPassword(e.target.value);
               }}
             />
 
-            <List sx={{ p :0}}>
+            <List sx={{ p: 0 }}>
               <ListItem>
                 <ListItemIcon>
                   <PolicyIcon color="action" />

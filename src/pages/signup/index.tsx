@@ -114,7 +114,7 @@ export default function SignUp() {
               variant={"contained"}
               disabled={!email || !password}
               onClick={handleClick}
-              sx={{ textTransform: "none"}}
+              sx={{ textTransform: "none" }}
             >
               Next
             </Button>

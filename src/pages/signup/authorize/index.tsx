@@ -94,9 +94,7 @@ export default function Authorize() {
               <Typography variant="h5">{data.client_name}</Typography>
             </Box>
 
-            <Typography variant="h6">
-              request scope
-            </Typography>
+            <Typography variant="h6">request scope</Typography>
 
             <Stack
               direction="row"
@@ -150,17 +148,20 @@ export default function Authorize() {
               </ListItem>
             </List>
 
-            <Box
-              sx={{ display: "flex", justifyContent: "space-between"}}
-            >
-              <Button variant="contained" color="error" onClick={handleCancel} sx={{ textTransform: "none"}}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleCancel}
+                sx={{ textTransform: "none" }}
+              >
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleApprove}
-                sx={{ textTransform: "none"}}
+                sx={{ textTransform: "none" }}
               >
                 Approve
               </Button>
