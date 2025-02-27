@@ -215,7 +215,7 @@ export default function SignIn() {
 
             <Divider sx={{ width: "100%", my: 1 }} />
             <Stack spacing={1} direction="row" justifyContent="center">
-              <Typography variant="body2">Don't have an account?</Typography>
+              <Typography variant="body2">{"Don't have an account?"}</Typography>
               <Link
                   onClick={() => router.push(`/signup?id=${id}&tenant_id=${tenantId}`)}
                   sx={{ fontWeight: "bold", cursor: "pointer", color: "primary.main", fontSize: 14 }}
