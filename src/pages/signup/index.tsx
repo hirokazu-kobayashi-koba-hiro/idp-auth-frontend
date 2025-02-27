@@ -61,24 +61,22 @@ export default function SignUp() {
 
   return (
     <>
-      <Container maxWidth={"sm"}>
-        <Paper sx={{ m: 4, p: 4, boxShadow: 3 }}>
-          <Typography variant={"h5"}>Sign Up</Typography>
+      <Container maxWidth="sm">
+        <Paper sx={{ p: 3, boxShadow: 3 }}>
+          <Typography variant="h5">Sign Up</Typography>
 
-          <Box mt={4} display="flex" flexDirection={"column"} sx={{ gap: 4 }}>
+          <Box mt={2} display="flex" flexDirection="column" sx={{ gap: 3 }}>
             <SignupStepper activeStep={0} />
 
-            <Box display={"flex"} gap={4} alignItems={"center"}>
-              <PersonAddIcon
-                sx={{ fontSize: 50, color: "primary.secondary" }}
-              />
-              <Typography variant="h5">Account Registration</Typography>
+            <Box display="flex" gap={2} alignItems="center">
+              <PersonAddIcon sx={{ fontSize: 40, color: "primary.main" }} />
+              <Typography variant="h6">Account Registration</Typography>
             </Box>
 
             <TextField
-              name={"email"}
-              label={"email"}
-              placeholder={"test@gmail.com"}
+              name="email"
+              label="Email"
+              placeholder="test@gmail.com"
               inputMode="email"
               value={email}
               required
@@ -89,13 +87,11 @@ export default function SignUp() {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-              name={"password"}
-              label={"password"}
+              name="password"
+              label="Password"
               type="password"
               value={password}
               required
@@ -106,15 +102,13 @@ export default function SignUp() {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
-              variant={"contained"}
+              variant="contained"
               disabled={!email || !password}
               onClick={handleClick}
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none", alignSelf: "flex-end" }}
             >
               Next
             </Button>

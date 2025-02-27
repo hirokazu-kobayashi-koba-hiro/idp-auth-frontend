@@ -5,7 +5,9 @@ import { createContext, useContext, useState } from "react";
 
 const queryClient = new QueryClient();
 
-export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://idp-server-0d10773f8944.herokuapp.com";
+export const backendUrl =
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "https://idp-server-0d10773f8944.herokuapp.com";
 
 interface AppContextType {
   userId: string | null;

@@ -120,22 +120,22 @@ export default function SignIn() {
 
   return (
     <>
-      <Container maxWidth={"sm"}>
-        <Paper sx={{ m: 4, p: 4 }}>
-          <Stack spacing={4}>
-            <Typography variant={"h5"}>Sign In</Typography>
+      <Container maxWidth="sm">
+        <Paper sx={{ p: 3, boxShadow: 3 }}>
+          <Stack spacing={3}>
+            <Typography variant="h5">Sign In</Typography>
 
             <SignupStepper activeStep={0} />
 
-            <Box display={"flex"} gap={4} alignItems={"center"}>
-              <Avatar src={data.logo_uri} sx={{ width: 80, height: 80 }} />
-              <Typography variant="h5">{data.client_name}</Typography>
-            </Box>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Avatar src={data.logo_uri} sx={{ width: 64, height: 64 }} />
+              <Typography variant="h6">{data.client_name}</Typography>
+            </Stack>
 
             <TextField
-              name={"email"}
-              label={"email"}
-              placeholder={"test@gmail.com"}
+              name="email"
+              label="Email"
+              placeholder="test@gmail.com"
               inputMode="email"
               value={email}
               required
@@ -146,13 +146,11 @@ export default function SignIn() {
                   </InputAdornment>
                 ),
               }}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-              name={"password"}
-              label={"password"}
+              name="password"
+              label="Password"
               type="password"
               value={password}
               required
@@ -169,43 +167,46 @@ export default function SignIn() {
               }}
             />
 
-            <List sx={{ p: 0 }}>
-              <ListItem>
-                <ListItemIcon>
-                  <PolicyIcon color="action" />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <a
-                      href={data.tos_uri}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      term of use
-                    </a>
-                  }
-                />
-              </ListItem>
+            <Stack spacing={1} sx={{ mt: 1 }}>
+              <List sx={{ p: 0 }}>
+                <ListItem>
+                  <ListItemIcon>
+                    <PolicyIcon color="action" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <a
+                        href={data.tos_uri}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        Terms of Use
+                      </a>
+                    }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <InfoIcon color="action" />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      <a
+                        href={data.policy_uri}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        Privacy Policy
+                      </a>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Stack>
 
-              <ListItem>
-                <ListItemIcon>
-                  <InfoIcon color="action" />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <a
-                      href={data.policy_uri}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      privacy policy
-                    </a>
-                  }
-                />
-              </ListItem>
-            </List>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Stack direction="row" spacing={2} justifyContent="center">
               <Button
                 variant="contained"
                 color="error"
@@ -223,21 +224,28 @@ export default function SignIn() {
               >
                 Next
               </Button>
-            </Box>
+            </Stack>
+
             <Divider />
-            <Box sx={{ gap: 2 }} display="flex">
-              <Typography>{"Dont have an account?"}</Typography>
+
+            <Stack spacing={1} direction="row" justifyContent="center">
+              <Typography variant="body2">Don't have an account?</Typography>
               <Link
                 onClick={() => {
                   router.push(`/signup?id=${id}&tenant_id=${tenantId}`);
                 }}
+                sx={{
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  color: "primary.main",
+                }}
               >
                 Sign Up
               </Link>
-            </Box>
+            </Stack>
           </Stack>
         </Paper>
-      </Container>
+      </Container>  
     </>
   );
 }
