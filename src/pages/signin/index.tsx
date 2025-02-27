@@ -120,120 +120,118 @@ export default function SignIn() {
 
   return (
     <>
-      <Container maxWidth="sm">
-        <Paper sx={{ p: 3, boxShadow: 3 }}>
-          <Stack spacing={3}>
-            <Typography variant="h5">Sign In</Typography>
+      <Container maxWidth="xs">
+        <Paper sx={{ p: 3, boxShadow: 1, borderRadius: 3 }}>
+          <Stack spacing={3} alignItems="center">
+            <Avatar src={data.logo_uri} sx={{ width: 64, height: 64 }} />
 
-            <SignupStepper activeStep={0} />
+            <Typography variant="h6" fontWeight="medium">
+              {data.client_name}
+            </Typography>
 
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Avatar src={data.logo_uri} sx={{ width: 64, height: 64 }} />
-              <Typography variant="h6">{data.client_name}</Typography>
+            <Stack spacing={2} width="100%">
+              <TextField
+                name="email"
+                label="Email"
+                placeholder="test@gmail.com"
+                inputMode="email"
+                value={email}
+                fullWidth
+                required
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Email />
+                    </InputAdornment>
+                  ),
+                }}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                name="password"
+                label="Password"
+                type="password"
+                value={password}
+                fullWidth
+                required
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Lock />
+                    </InputAdornment>
+                  ),
+                }}
+                onChange={(e) => {
+                  navigator.credentials.preventSilentAccess();
+                  setPassword(e.target.value);
+                }}
+              />
             </Stack>
 
-            <TextField
-              name="email"
-              label="Email"
-              placeholder="test@gmail.com"
-              inputMode="email"
-              value={email}
-              required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              name="password"
-              label="Password"
-              type="password"
-              value={password}
-              required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={(e) => {
-                navigator.credentials.preventSilentAccess();
-                setPassword(e.target.value);
-              }}
-            />
-
-            <Stack spacing={1} sx={{ mt: 1 }}>
-              <List sx={{ p: 0 }}>
-                <ListItem>
-                  <ListItemIcon>
-                    <PolicyIcon color="action" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <a
-                        href={data.tos_uri}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ textDecoration: "none", color: "inherit" }}
-                      >
-                        Terms of Use
-                      </a>
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <InfoIcon color="action" />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <a
-                        href={data.policy_uri}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ textDecoration: "none", color: "inherit" }}
-                      >
-                        Privacy Policy
-                      </a>
-                    }
-                  />
-                </ListItem>
-              </List>
+            <Stack spacing={1} width="100%">
+              <Typography
+                variant="body2"
+                textAlign="center"
+                color="text.secondary"
+              >
+                By signing in, you agree to our
+              </Typography>
+              <Stack direction="row" justifyContent="center" spacing={2}>
+                <Link
+                  href={data.tos_uri}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Terms of Use
+                </Link>
+                <Link
+                  href={data.policy_uri}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Privacy Policy
+                </Link>
+              </Stack>
             </Stack>
 
-            <Stack direction="row" spacing={2} justifyContent="center">
+            <Stack spacing={1} width="100%">
               <Button
                 variant="contained"
+                color="primary"
+                disabled={!email || !password}
+                onClick={handleNext}
+                fullWidth
+                sx={{ textTransform: "none", borderRadius: 8 }}
+              >
+                Next
+              </Button>
+              <Button
+                variant="text"
                 color="error"
                 onClick={handleCancel}
                 sx={{ textTransform: "none" }}
               >
                 Cancel
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={!email || !password}
-                onClick={handleNext}
-                sx={{ textTransform: "none" }}
-              >
-                Next
-              </Button>
             </Stack>
 
-            <Divider />
-
+            <Divider sx={{ width: "100%", my: 1 }} />
             <Stack spacing={1} direction="row" justifyContent="center">
               <Typography variant="body2">Don't have an account?</Typography>
               <Link
-                onClick={() => {
-                  router.push(`/signup?id=${id}&tenant_id=${tenantId}`);
-                }}
+                onClick={() =>
+                  router.push(`/signup?id=${id}&tenant_id=${tenantId}`)
+                }
                 sx={{
                   fontWeight: "bold",
                   cursor: "pointer",
@@ -245,7 +243,7 @@ export default function SignIn() {
             </Stack>
           </Stack>
         </Paper>
-      </Container>  
+      </Container>
     </>
   );
 }
