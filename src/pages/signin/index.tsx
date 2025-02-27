@@ -121,26 +121,26 @@ export default function SignIn() {
         <Paper sx={{ p: isMobile ? 2 : 3, boxShadow: 1, borderRadius: 3 }}>
           <Stack spacing={isMobile ? 2 : 3} alignItems="center">
 
-            <Avatar src={data.logo_uri} sx={{ width: isMobile ? 48 : 64, height: isMobile ? 48 : 64 }} />
+            <Avatar src={data.logo_uri} sx={{ width: 56, height: 56 }} />
 
-            <Typography variant={isMobile ? "body1" : "h6"} fontWeight="medium">
+            <Typography variant="subtitle1" fontWeight="medium">
               {data.client_name}
             </Typography>
 
             <Stack spacing={2} width="100%">
               <TextField
                   name="email"
-                  label="Email"
-                  placeholder="test@gmail.com"
+                  placeholder="Your email"
                   inputMode="email"
-                  value={email}
                   fullWidth
                   required
+                  variant="standard"
                   InputProps={{
-                    sx: { height: 48, fontSize: 16 },
+                    disableUnderline: true,
+                    sx: { height: 48, fontSize: 17, backgroundColor: "#F5F5F7", borderRadius: 2, px: 2 },
                     startAdornment: (
                         <InputAdornment position="start">
-                          <Email />
+                          <Email sx={{ color: "gray" }} />
                         </InputAdornment>
                     ),
                   }}
@@ -148,16 +148,17 @@ export default function SignIn() {
               />
               <TextField
                   name="password"
-                  label="Password"
+                  placeholder="Your password"
                   type="password"
-                  value={password}
                   fullWidth
                   required
+                  variant="standard"
                   InputProps={{
-                    sx: { height: 48, fontSize: 16 },
+                    disableUnderline: true,
+                    sx: { height: 48, fontSize: 17, backgroundColor: "#F5F5F7", borderRadius: 2, px: 2 },
                     startAdornment: (
                         <InputAdornment position="start">
-                          <Lock />
+                          <Lock sx={{ color: "gray" }} />
                         </InputAdornment>
                     ),
                   }}
@@ -177,7 +178,15 @@ export default function SignIn() {
                     href={data.tos_uri}
                     target="_blank"
                     rel="noopener noreferrer"
-                    sx={{ textDecoration: "none", color: "primary.main", fontWeight: "bold", display: "block" }}
+                    sx={{
+                      textDecoration: "none",
+                      color: "primary.main",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      display: "block",
+                      minHeight: 44,
+                      lineHeight: "44px",
+                    }}
                 >
                   Terms of Use
                 </Link>
@@ -185,7 +194,15 @@ export default function SignIn() {
                     href={data.policy_uri}
                     target="_blank"
                     rel="noopener noreferrer"
-                    sx={{ textDecoration: "none", color: "primary.main", fontWeight: "bold", display: "block" }}
+                    sx={{
+                      textDecoration: "none",
+                      color: "primary.main",
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      display: "block",
+                      minHeight: 44,
+                      lineHeight: "44px",
+                    }}
                 >
                   Privacy Policy
                 </Link>
@@ -195,19 +212,26 @@ export default function SignIn() {
             <Stack spacing={1} width="100%">
               <Button
                   variant="contained"
-                  color="primary"
                   disabled={!email || !password}
                   onClick={handleNext}
                   fullWidth
-                  sx={{ textTransform: "none", borderRadius: 8, height: 48, fontSize: 16 }}
+                  sx={{
+                    textTransform: "none",
+                    borderRadius: 10,
+                    height: 50,
+                    fontSize: 17,
+                    fontWeight: "bold",
+                    backgroundColor: "#007AFF",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                    "&:hover": { opacity: 0.8 },
+                  }}
               >
                 Next
               </Button>
               <Button
                   variant="text"
-                  color="error"
                   onClick={handleCancel}
-                  sx={{ textTransform: "none", fontSize: 14 }}
+                  sx={{ textTransform: "none", fontSize: 15, color: "#7D7D7D" }}
               >
                 Cancel
               </Button>
@@ -215,7 +239,7 @@ export default function SignIn() {
 
             <Divider sx={{ width: "100%", my: 1 }} />
             <Stack spacing={1} direction="row" justifyContent="center">
-              <Typography variant="body2">{"Don't have an account?"}</Typography>
+              <Typography variant="body2">Don't have an account?</Typography>
               <Link
                   onClick={() => router.push(`/signup?id=${id}&tenant_id=${tenantId}`)}
                   sx={{ fontWeight: "bold", cursor: "pointer", color: "primary.main", fontSize: 14 }}
