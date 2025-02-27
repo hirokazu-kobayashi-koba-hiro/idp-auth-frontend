@@ -1,15 +1,10 @@
 import {
   Avatar,
-  Box,
   Button,
   Container,
   Divider,
   InputAdornment,
   Link,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Paper,
   Stack,
   TextField,
@@ -19,17 +14,19 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { backendUrl } from "@/pages/_app";
-import PolicyIcon from "@mui/icons-material/Policy";
-import InfoIcon from "@mui/icons-material/Info";
 import { Loading } from "@/components/Loading";
-import { SignupStepper } from "@/components/SigninStepper";
 import { Email, Lock } from "@mui/icons-material";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const { id, tenant_id: tenantId } = router.query;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+
   const { data, isPending } = useQuery({
     queryKey: ["fetchViewData"],
     queryFn: async () => {
@@ -120,84 +117,75 @@ export default function SignIn() {
 
   return (
     <>
-      <Container maxWidth="xs">
-        <Paper sx={{ p: 3, boxShadow: 1, borderRadius: 3 }}>
-          <Stack spacing={3} alignItems="center">
-            <Avatar src={data.logo_uri} sx={{ width: 64, height: 64 }} />
+      <Container maxWidth={isMobile ? "xs" : "sm"}>
+        <Paper sx={{ p: isMobile ? 2 : 3, boxShadow: 1, borderRadius: 3 }}>
+          <Stack spacing={isMobile ? 2 : 3} alignItems="center">
 
-            <Typography variant="h6" fontWeight="medium">
+            <Avatar src={data.logo_uri} sx={{ width: isMobile ? 48 : 64, height: isMobile ? 48 : 64 }} />
+
+            <Typography variant={isMobile ? "body1" : "h6"} fontWeight="medium">
               {data.client_name}
             </Typography>
 
             <Stack spacing={2} width="100%">
               <TextField
-                name="email"
-                label="Email"
-                placeholder="test@gmail.com"
-                inputMode="email"
-                value={email}
-                fullWidth
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Email />
-                    </InputAdornment>
-                  ),
-                }}
-                onChange={(e) => setEmail(e.target.value)}
+                  name="email"
+                  label="Email"
+                  placeholder="test@gmail.com"
+                  inputMode="email"
+                  value={email}
+                  fullWidth
+                  required
+                  InputProps={{
+                    sx: { height: 48, fontSize: 16 },
+                    startAdornment: (
+                        <InputAdornment position="start">
+                          <Email />
+                        </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
-                name="password"
-                label="Password"
-                type="password"
-                value={password}
-                fullWidth
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Lock />
-                    </InputAdornment>
-                  ),
-                }}
-                onChange={(e) => {
-                  navigator.credentials.preventSilentAccess();
-                  setPassword(e.target.value);
-                }}
+                  name="password"
+                  label="Password"
+                  type="password"
+                  value={password}
+                  fullWidth
+                  required
+                  InputProps={{
+                    sx: { height: 48, fontSize: 16 },
+                    startAdornment: (
+                        <InputAdornment position="start">
+                          <Lock />
+                        </InputAdornment>
+                    ),
+                  }}
+                  onChange={(e) => {
+                    navigator.credentials.preventSilentAccess();
+                    setPassword(e.target.value);
+                  }}
               />
             </Stack>
 
             <Stack spacing={1} width="100%">
-              <Typography
-                variant="body2"
-                textAlign="center"
-                color="text.secondary"
-              >
+              <Typography variant="body2" textAlign="center" color="text.secondary">
                 By signing in, you agree to our
               </Typography>
-              <Stack direction="row" justifyContent="center" spacing={2}>
+              <Stack direction="column" alignItems="center">
                 <Link
-                  href={data.tos_uri}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{
-                    textDecoration: "none",
-                    color: "primary.main",
-                    fontWeight: "bold",
-                  }}
+                    href={data.tos_uri}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ textDecoration: "none", color: "primary.main", fontWeight: "bold", display: "block" }}
                 >
                   Terms of Use
                 </Link>
                 <Link
-                  href={data.policy_uri}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{
-                    textDecoration: "none",
-                    color: "primary.main",
-                    fontWeight: "bold",
-                  }}
+                    href={data.policy_uri}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{ textDecoration: "none", color: "primary.main", fontWeight: "bold", display: "block" }}
                 >
                   Privacy Policy
                 </Link>
@@ -206,20 +194,20 @@ export default function SignIn() {
 
             <Stack spacing={1} width="100%">
               <Button
-                variant="contained"
-                color="primary"
-                disabled={!email || !password}
-                onClick={handleNext}
-                fullWidth
-                sx={{ textTransform: "none", borderRadius: 8 }}
+                  variant="contained"
+                  color="primary"
+                  disabled={!email || !password}
+                  onClick={handleNext}
+                  fullWidth
+                  sx={{ textTransform: "none", borderRadius: 8, height: 48, fontSize: 16 }}
               >
                 Next
               </Button>
               <Button
-                variant="text"
-                color="error"
-                onClick={handleCancel}
-                sx={{ textTransform: "none" }}
+                  variant="text"
+                  color="error"
+                  onClick={handleCancel}
+                  sx={{ textTransform: "none", fontSize: 14 }}
               >
                 Cancel
               </Button>
@@ -229,14 +217,8 @@ export default function SignIn() {
             <Stack spacing={1} direction="row" justifyContent="center">
               <Typography variant="body2">Don't have an account?</Typography>
               <Link
-                onClick={() =>
-                  router.push(`/signup?id=${id}&tenant_id=${tenantId}`)
-                }
-                sx={{
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  color: "primary.main",
-                }}
+                  onClick={() => router.push(`/signup?id=${id}&tenant_id=${tenantId}`)}
+                  sx={{ fontWeight: "bold", cursor: "pointer", color: "primary.main", fontSize: 14 }}
               >
                 Sign Up
               </Link>
