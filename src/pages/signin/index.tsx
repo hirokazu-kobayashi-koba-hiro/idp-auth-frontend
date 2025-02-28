@@ -246,7 +246,7 @@ export default function SignIn() {
   );
 
   return (
-    <Box sx={{ backgroundColor: "black", height: "100vh"}}>
+    <Box sx={{ height: "100vh"}}>
         <Container maxWidth={isMobile ? "xs" : "xs"}>
             {isMobile ? (
                 <Box mt={2}>
