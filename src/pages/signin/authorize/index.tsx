@@ -68,6 +68,9 @@ export default function Authorize() {
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          action: "signin",
+        })
       },
     );
     const body = await response.json();
