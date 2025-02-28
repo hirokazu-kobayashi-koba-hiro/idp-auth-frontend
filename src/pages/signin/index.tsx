@@ -2,7 +2,6 @@ import {
     Box,
     Button,
     Container,
-    Divider,
     InputAdornment,
     Link,
     Paper,
@@ -118,13 +117,11 @@ export default function SignIn() {
   const content = (
       <Stack spacing={isMobile ? 2 : 3} alignItems="center">
 
-          <Typography variant="h6" fontWeight="medium">
-              IdP Server
+          <Typography variant="subtitle1" fontWeight="medium">
+              {data.client_name}
           </Typography>
-
           <Stack spacing={2} width="100%">
               <TextField
-                  name="email"
                   placeholder="Your email"
                   inputMode="email"
                   fullWidth
@@ -132,7 +129,7 @@ export default function SignIn() {
                   variant="standard"
                   InputProps={{
                       disableUnderline: true,
-                      sx: { height: 48, fontSize: 17, backgroundColor: "#F5F5F7", borderRadius: 2, px: 2 },
+                      sx: { height: 48, fontSize: 17, px: 2, backgroundColor: "transparent" },
                       startAdornment: (
                           <InputAdornment position="start">
                               <Email sx={{ color: "gray" }} />
@@ -142,7 +139,6 @@ export default function SignIn() {
                   onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
-                  name="password"
                   placeholder="Your password"
                   type="password"
                   fullWidth
@@ -150,7 +146,7 @@ export default function SignIn() {
                   variant="standard"
                   InputProps={{
                       disableUnderline: true,
-                      sx: { height: 48, fontSize: 17, backgroundColor: "#F5F5F7", borderRadius: 2, px: 2 },
+                      sx: { height: 48, fontSize: 17, px: 2, backgroundColor: "transparent" },
                       startAdornment: (
                           <InputAdornment position="start">
                               <Lock sx={{ color: "gray" }} />
@@ -163,47 +159,6 @@ export default function SignIn() {
                   }}
               />
           </Stack>
-
-          <Stack spacing={1} width="100%">
-              <Typography variant="body2" textAlign="center" color="text.secondary">
-                  By signing in, you agree to our
-              </Typography>
-              <Stack direction="column" alignItems="center">
-                  <Link
-                      href={data?.tos_uri}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{
-                          textDecoration: "none",
-                          color: "primary.main",
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          display: "block",
-                          minHeight: 44,
-                          lineHeight: "44px",
-                      }}
-                  >
-                      Terms of Use
-                  </Link>
-                  <Link
-                      href={data?.policy_uri}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      sx={{
-                          textDecoration: "none",
-                          color: "primary.main",
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          display: "block",
-                          minHeight: 44,
-                          lineHeight: "44px",
-                      }}
-                  >
-                      Privacy Policy
-                  </Link>
-              </Stack>
-          </Stack>
-
           <Stack spacing={1} width="100%">
               <Button
                   variant="contained"
@@ -212,32 +167,47 @@ export default function SignIn() {
                   fullWidth
                   sx={{
                       textTransform: "none",
-                      borderRadius: 10,
-                      height: 50,
-                      fontSize: 17,
+                      borderRadius: 8,
+                      height: 44,
+                      fontSize: 16,
                       fontWeight: "bold",
                       backgroundColor: "#007AFF",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                      boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
                       "&:hover": { opacity: 0.8 },
                   }}
               >
                   Next
               </Button>
               <Button
-                  variant="text"
+                  variant="outlined"
                   onClick={handleCancel}
-                  sx={{ textTransform: "none", fontSize: 15, color: "#7D7D7D" }}
+                  sx={{
+                      textTransform: "none",
+                      fontSize: 16,
+                      fontWeight: "medium",
+                      color: "#505050",
+                      borderColor: "rgba(0, 0, 0, 0.2)",
+                  }}
               >
                   Cancel
               </Button>
           </Stack>
-
-          <Divider sx={{ width: "100%", my: 1 }} />
-          <Stack spacing={1} direction="row" justifyContent="center">
+          <Typography variant="caption" color="text.secondary" textAlign="center" sx={{ mt: 2 }}>
+              By signing in, you agree to our
+              <Link href={data.tos_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>Terms of Use</Link>
+              and
+              <Link href={data.policy_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>Privacy Policy</Link>.
+          </Typography>
+          <Stack spacing={1} direction="row" justifyContent="center" sx={{ mt: 3 }}>
               <Typography variant="body2">{"Don't have an account?"}</Typography>
               <Link
                   onClick={() => router.push(`/signup?id=${id}&tenant_id=${tenantId}`)}
-                  sx={{ fontWeight: "bold", cursor: "pointer", color: "primary.main", fontSize: 14 }}
+                  sx={{
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                      color: "primary.main",
+                      fontSize: 16,
+                  }}
               >
                   Sign Up
               </Link>
