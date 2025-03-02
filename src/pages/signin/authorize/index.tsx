@@ -70,7 +70,7 @@ export default function Authorize() {
         },
         body: JSON.stringify({
           action: "signin",
-        })
+        }),
       },
     );
     const body = await response.json();
