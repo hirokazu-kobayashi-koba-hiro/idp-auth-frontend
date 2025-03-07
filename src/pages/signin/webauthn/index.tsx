@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/Loading";
 import KeyIcon from "@mui/icons-material/Key";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
+import {SsoComponent} from "@/components/sso/SsoComponent";
 
 export default function Login() {
   const router = useRouter();
@@ -202,17 +203,6 @@ export default function Login() {
             )}
           </Stack>
           {message && <Typography>{message}</Typography>}
-          <Typography variant="caption" color="text.secondary" sx={{ mt: 2 }}>
-            By signing in, you agree to our
-            <Link href={data.tos_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
-              Terms of Use
-            </Link>
-            and
-            <Link href={data.policy_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
-              Privacy Policy
-            </Link>
-          </Typography>
-
           <Divider />
           <Stack
             spacing={1}
@@ -236,6 +226,22 @@ export default function Login() {
             </Link>
           </Stack>
         </Stack>
+
+        <Stack spacing={2} sx={{ width: "100%" }}>
+          <Divider variant={"fullWidth"} />
+          <SsoComponent />
+        </Stack>
+
+        <Typography variant="caption" color="text.secondary" sx={{ mt: 2 }}>
+          By signing in, you agree to our
+          <Link href={data.tos_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
+            Terms of Use
+          </Link>
+          and
+          <Link href={data.policy_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
+            Privacy Policy
+          </Link>
+        </Typography>
       </Stack>
     </BaseLayout>
   );

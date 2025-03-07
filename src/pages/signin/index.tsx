@@ -10,13 +10,16 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { backendUrl } from "@/pages/_app";
+import { backendUrl, useAppContext } from "@/pages/_app";
 import { Loading } from "@/components/Loading";
 import { Email, Lock } from "@mui/icons-material";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { BaseLayout } from "@/components/layout/BaseLayout";
+import { getUserAgentData, parseUserAgent } from "@/functions/device";
+import { SsoComponent } from "@/components/sso/SsoComponent";
 
 export default function SignIn() {
+  const { setId, setTenantId } = useAppContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -28,12 +31,24 @@ export default function SignIn() {
     queryKey: ["fetchViewData"],
     queryFn: async () => {
       const { id, tenant_id: tenantId } = router.query;
+      if (typeof id === "string") {
+        setId(id);
+      }
+      if (typeof tenantId === "string") {
+        setTenantId(tenantId);
+      }
+
+      const ua = await getUserAgentData(navigator);
+      const parsedUA = parseUserAgent(navigator.userAgent);
+      console.log(ua, parsedUA);
+
       const response = await fetch(
         `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/view-data`,
         {
           credentials: "include",
         },
       );
+
       if (!response.ok) {
         console.error(response);
         throw new Error(response.status.toString());
@@ -202,23 +217,7 @@ export default function SignIn() {
             </Button>
           )}
         </Stack>
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          textAlign="center"
-          sx={{ mt: 2 }}
-        >
-          By signing in, you agree to our
-          <Link href={data.tos_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
-            Terms of Use
-          </Link>
-          and
-          <Link href={data.policy_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
-            Privacy Policy
-          </Link>
-        </Typography>
 
-        <Divider />
         <Stack
           spacing={1}
           direction="row"
@@ -240,6 +239,27 @@ export default function SignIn() {
             Sign Up
           </Link>
         </Stack>
+
+        <Stack spacing={2} sx={{ width: "100%" }}>
+          <Divider variant={"fullWidth"} />
+          <SsoComponent />
+        </Stack>
+
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          textAlign="center"
+          sx={{ mt: 2 }}
+        >
+          By signing in, you agree to our
+          <Link href={data.tos_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
+            Terms of Use
+          </Link>
+          and
+          <Link href={data.policy_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
+            Privacy Policy
+          </Link>
+        </Typography>
       </Stack>
     </BaseLayout>
   );
