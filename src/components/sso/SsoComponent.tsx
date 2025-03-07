@@ -6,7 +6,7 @@ export const SsoComponent = ({}) => {
 
   const handleClick = async (idpId: string) => {
     const response = await fetch(
-      `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/password-authentication`,
+      `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/federations`,
       {
         method: "POST",
         credentials: "include",
