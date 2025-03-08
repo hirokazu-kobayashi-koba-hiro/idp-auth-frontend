@@ -1,12 +1,17 @@
-import { Button, Stack } from "@mui/material";
-import { backendUrl, useAppContext } from "@/pages/_app";
+import { Button, Stack, Typography } from "@mui/material";
+import { backendUrl } from "@/pages/_app";
+import { useState } from "react";
+import { useAtom } from "jotai";
+import { authSessionIdAtom, authSessionTenantIdAtom } from "@/state/AuthState";
 
 export const SsoComponent = ({}) => {
-  const { id, tenantId } = useAppContext();
+  const [authSessionId] = useAtom(authSessionIdAtom);
+  const [authSessiontenantId] = useAtom(authSessionTenantIdAtom);
+  const [message, setMessage] = useState("");
 
   const handleClick = async (idpId: string) => {
     const response = await fetch(
-      `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/federations`,
+      `${backendUrl}/${authSessiontenantId}/api/v1/authorizations/${authSessionId}/federations`,
       {
         method: "POST",
         credentials: "include",
@@ -24,8 +29,10 @@ export const SsoComponent = ({}) => {
       console.log(response.status, body);
       if (body.redirect_uri) {
         window.location.href = body.redirect_uri;
+        return;
       }
     }
+    setMessage("failed sso. system error occurred");
   };
 
   return (
@@ -43,6 +50,7 @@ export const SsoComponent = ({}) => {
       <Button variant={"outlined"} sx={{ textTransform: "none" }} fullWidth>
         Signin with GitHub
       </Button>
+      {message && <Typography variant={"caption"} color={"error"}>{message}</Typography>}
     </Stack>
   );
 };

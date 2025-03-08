@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { Typography, Button, Stack, Link, Divider, Box } from "@mui/material";
 import { useRouter } from "next/router";
-import { backendUrl, useAppContext } from "@/pages/_app";
+import { backendUrl } from "@/pages/_app";
 import { BaseLayout } from "@/components/layout/BaseLayout";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "@/components/Loading";
 import KeyIcon from "@mui/icons-material/Key";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import { SsoComponent } from "@/components/sso/SsoComponent";
+import { useAtom } from "jotai";
+import { authSessionIdAtom, authSessionTenantIdAtom } from "@/state/AuthState";
 
 export default function Login() {
-  const { setId, setTenantId } = useAppContext();
+  const [, setAuthSessionId] = useAtom(authSessionIdAtom);
+  const [, setAuthSessionTenantId] = useAtom(authSessionTenantIdAtom);
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -21,10 +25,10 @@ export default function Login() {
     queryFn: async () => {
       const { id, tenant_id: tenantId } = router.query;
       if (typeof id === "string") {
-        setId(id);
+        setAuthSessionId(id);
       }
       if (typeof tenantId === "string") {
-        setTenantId(tenantId);
+        setAuthSessionTenantId(tenantId);
       }
 
       const response = await fetch(
