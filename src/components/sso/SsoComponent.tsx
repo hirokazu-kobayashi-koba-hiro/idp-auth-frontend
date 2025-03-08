@@ -6,12 +6,12 @@ import { authSessionIdAtom, authSessionTenantIdAtom } from "@/state/AuthState";
 
 export const SsoComponent = ({}) => {
   const [authSessionId] = useAtom(authSessionIdAtom);
-  const [authSessiontenantId] = useAtom(authSessionTenantIdAtom);
+  const [authSessionTenantId] = useAtom(authSessionTenantIdAtom);
   const [message, setMessage] = useState("");
 
   const handleClick = async (idpId: string) => {
     const response = await fetch(
-      `${backendUrl}/${authSessiontenantId}/api/v1/authorizations/${authSessionId}/federations`,
+      `${backendUrl}/${authSessionTenantId}/api/v1/authorizations/${authSessionId}/federations`,
       {
         method: "POST",
         credentials: "include",
@@ -47,7 +47,15 @@ export const SsoComponent = ({}) => {
       >
         Signin with Google
       </Button>
-      <Button variant={"outlined"} sx={{ textTransform: "none" }} fullWidth>
+      <Button
+          variant={"outlined"}
+          sx={{ textTransform: "none" }}
+          color={"inherit"}
+          fullWidth
+          onClick={async () => {
+              await handleClick("4cc97cad-34ad-41e7-af53-c4ddee3f786b")
+          }}
+      >
         Signin with GitHub
       </Button>
       {message && <Typography variant={"caption"} color={"error"}>{message}</Typography>}
