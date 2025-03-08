@@ -2,25 +2,21 @@ import { Loading } from "@/components/Loading";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { backendUrl } from "@/pages/_app";
-import {Stack, Typography} from "@mui/material";
-import { useAtom } from "jotai";
-import { authSessionIdAtom, authSessionTenantIdAtom } from "@/state/AuthState";
-import {BaseLayout} from "@/components/layout/BaseLayout";
+import { Stack, Typography } from "@mui/material";
+import { BaseLayout } from "@/components/layout/BaseLayout";
 
 const SsoCallback = () => {
   const router = useRouter();
-  const [authSessionId] = useAtom(authSessionIdAtom);
-  const [authSessionTenantId] = useAtom(authSessionTenantIdAtom);
 
   const { isPending, isError } = useQuery({
     queryKey: ["postFederationsCallback"],
     queryFn: async () => {
       const query = router.query;
       console.log(query);
-      if (!query) return
+      if (!query) return;
 
       const response = await fetch(
-        `${backendUrl}/${authSessionTenantId}/api/v1/authorizations/${authSessionId}/federations/callback`,
+        `${backendUrl}/api/v1/authorizations/federations/callback`,
         {
           method: "POST",
           credentials: "include",
@@ -37,8 +33,10 @@ const SsoCallback = () => {
         throw new Error(response.status.toString());
       }
 
+      const { id, tenant_id: tenantId } = await response.json();
+
       const authorizeResponse = await fetch(
-        `${backendUrl}/${authSessionTenantId}/api/v1/authorizations/${authSessionId}/authorize`,
+        `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/authorize`,
         {
           method: "POST",
           credentials: "include",
@@ -60,19 +58,19 @@ const SsoCallback = () => {
     },
   });
 
-  if (isPending) return <Loading />
+  if (isPending) return <Loading />;
 
   return (
-      <BaseLayout>
-          <Stack spacing={2}>
-              { isError &&
-                  <Typography variant={"body1"} color={"error"}>
-                      sso is failed.
-                  </Typography>
-              }
-          </Stack>
-      </BaseLayout>
-  )
+    <BaseLayout>
+      <Stack spacing={2}>
+        {isError && (
+          <Typography variant={"body1"} color={"error"}>
+            sso is failed.
+          </Typography>
+        )}
+      </Stack>
+    </BaseLayout>
+  );
 };
 
 export default SsoCallback;
