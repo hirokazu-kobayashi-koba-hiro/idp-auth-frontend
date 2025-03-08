@@ -56,7 +56,7 @@ export const SsoComponent = ({}) => {
           await handleClick("4cc97cad-34ad-41e7-af53-c4ddee3f786b");
         }}
       >
-        Signin with GitHub
+        Signin with Yahoo
       </Button>
       {message && (
         <Typography variant={"caption"} color={"error"}>
