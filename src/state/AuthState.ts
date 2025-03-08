@@ -2,7 +2,7 @@ import { atomWithStorage, createJSONStorage } from "jotai/utils";
 
 const sessionStorage =
     typeof window !== "undefined"
-        ? createJSONStorage(() => window.sessionStorage)
+        ? createJSONStorage(() => window.localStorage)
         : undefined;
 
 export const authSessionIdAtom = atomWithStorage(
