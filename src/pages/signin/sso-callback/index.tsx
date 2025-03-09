@@ -56,7 +56,7 @@ const SsoCallback = () => {
         window.location.href = body.redirect_uri;
         return;
       }
-      setMessage("failed social login. server occurred unexpected error")
+      setMessage("failed social login. server occurred unexpected error");
       throw new Error("failed authorization");
     },
   });
@@ -66,12 +66,12 @@ const SsoCallback = () => {
   return (
     <BaseLayout>
       {message ? (
-          <Stack spacing={2}>
-              <Typography variant={"subtitle1"}>Social Login is Failed</Typography>
-              <Typography variant={"body1"} color={"error"}>
-                  {message}
-              </Typography>
-          </Stack>
+        <Stack spacing={2}>
+          <Typography variant={"subtitle1"}>Social Login is Failed</Typography>
+          <Typography variant={"body1"} color={"error"}>
+            {message}
+          </Typography>
+        </Stack>
       ) : (
         <Loading />
       )}
