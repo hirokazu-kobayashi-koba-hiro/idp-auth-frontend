@@ -39,6 +39,7 @@ export const SsoComponent = ({}) => {
     <Stack spacing={1}>
       <Button
         variant={"outlined"}
+        color={"inherit"}
         sx={{ textTransform: "none" }}
         fullWidth
         onClick={async () => {
@@ -47,10 +48,20 @@ export const SsoComponent = ({}) => {
       >
         Signin with Google
       </Button>
+        <Button
+            variant={"outlined"}
+            sx={{ textTransform: "none" }}
+            fullWidth
+            onClick={async () => {
+                await handleClick("3be20da2-eea5-4420-9e1e-90215803b4a8");
+            }}
+        >
+            Signin with Facebook
+        </Button>
       <Button
         variant={"outlined"}
         sx={{ textTransform: "none" }}
-        color={"inherit"}
+        color={"error"}
         fullWidth
         onClick={async () => {
           await handleClick("4cc97cad-34ad-41e7-af53-c4ddee3f786b");
