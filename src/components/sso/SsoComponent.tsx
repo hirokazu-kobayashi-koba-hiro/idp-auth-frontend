@@ -29,11 +29,6 @@ const idpConfigs = [
     id: "4cc97cad-34ad-41e7-af53-c4ddee3f786b",
     name: "Yahoo! JAPAN ID",
     logo: "/logos/yahoo_japan_icon_64.png",
-  },
-  {
-    id: "1173c158-3e8d-49c4-abbe-b5d833b9216c",
-    name: "Linked In",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg",
   }
 ] as IdpConfigs;
 
