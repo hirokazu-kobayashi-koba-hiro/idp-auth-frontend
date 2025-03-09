@@ -217,7 +217,6 @@ export default function Login() {
             )}
           </Stack>
           {message && <Typography>{message}</Typography>}
-          <Divider />
           <Stack
             spacing={1}
             direction="row"
