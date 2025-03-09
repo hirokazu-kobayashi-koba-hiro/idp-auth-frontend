@@ -30,7 +30,6 @@ export default function SignIn() {
   const { data, isPending } = useQuery({
     queryKey: ["fetchViewData", router.query],
     queryFn: async () => {
-
       if (!router.isReady || Object.keys(router.query).length === 0) return; // Ensure query params exist
       const { id, tenant_id: tenantId } = router.query;
       if (typeof id === "string") {

@@ -4,14 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 import { backendUrl } from "@/pages/_app";
 import { Stack, Typography } from "@mui/material";
 import { BaseLayout } from "@/components/layout/BaseLayout";
+import { useState } from "react";
 
 const SsoCallback = () => {
   const router = useRouter();
+  const [message, setMessage] = useState("");
 
-  const { isPending, isError } = useQuery({
+  const { isPending } = useQuery({
     queryKey: ["postFederationsCallback", router.query],
     queryFn: async () => {
-
       if (!router.isReady || Object.keys(router.query).length === 0) return; // Ensure query params exist
       const query = router.query;
       console.log(query);
@@ -55,6 +56,7 @@ const SsoCallback = () => {
         window.location.href = body.redirect_uri;
         return;
       }
+      setMessage("failed social login. server occurred unexpected error")
       throw new Error("failed authorization");
     },
   });
@@ -63,13 +65,16 @@ const SsoCallback = () => {
 
   return (
     <BaseLayout>
-      <Stack spacing={2}>
-        {isError && (
-          <Typography variant={"body1"} color={"error"}>
-            sso is failed.
-          </Typography>
-        )}
-      </Stack>
+      {message ? (
+          <Stack spacing={2}>
+              <Typography variant={"subtitle1"}>Social Login is Failed</Typography>
+              <Typography variant={"body1"} color={"error"}>
+                  {message}
+              </Typography>
+          </Stack>
+      ) : (
+        <Loading />
+      )}
     </BaseLayout>
   );
 };
