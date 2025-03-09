@@ -21,8 +21,10 @@ export default function Login() {
   const { id, tenant_id: tenantId } = router.query;
 
   const { data, isPending } = useQuery({
-    queryKey: ["fetchViewData"],
+    queryKey: ["fetchViewData", router.query],
     queryFn: async () => {
+      if (!router.isReady || Object.keys(router.query).length === 0) return; // Ensure query params exist
+
       const { id, tenant_id: tenantId } = router.query;
       if (typeof id === "string") {
         setAuthSessionId(id);

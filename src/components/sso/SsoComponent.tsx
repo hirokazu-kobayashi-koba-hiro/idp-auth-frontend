@@ -48,16 +48,16 @@ export const SsoComponent = ({}) => {
       >
         Signin with Google
       </Button>
-        <Button
-            variant={"outlined"}
-            sx={{ textTransform: "none" }}
-            fullWidth
-            onClick={async () => {
-                await handleClick("3be20da2-eea5-4420-9e1e-90215803b4a8");
-            }}
-        >
-            Signin with Facebook
-        </Button>
+      <Button
+        variant={"outlined"}
+        sx={{ textTransform: "none" }}
+        fullWidth
+        onClick={async () => {
+          await handleClick("3be20da2-eea5-4420-9e1e-90215803b4a8");
+        }}
+      >
+        Signin with Facebook
+      </Button>
       <Button
         variant={"outlined"}
         sx={{ textTransform: "none" }}

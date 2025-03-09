@@ -9,11 +9,12 @@ const SsoCallback = () => {
   const router = useRouter();
 
   const { isPending, isError } = useQuery({
-    queryKey: ["postFederationsCallback"],
+    queryKey: ["postFederationsCallback", router.query],
     queryFn: async () => {
+
+      if (!router.isReady || Object.keys(router.query).length === 0) return; // Ensure query params exist
       const query = router.query;
       console.log(query);
-      if (!query) return;
 
       const response = await fetch(
         `${backendUrl}/api/v1/authorizations/federations/callback`,

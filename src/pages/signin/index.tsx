@@ -28,8 +28,10 @@ export default function SignIn() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const { data, isPending } = useQuery({
-    queryKey: ["fetchViewData"],
+    queryKey: ["fetchViewData", router.query],
     queryFn: async () => {
+
+      if (!router.isReady || Object.keys(router.query).length === 0) return; // Ensure query params exist
       const { id, tenant_id: tenantId } = router.query;
       if (typeof id === "string") {
         setId(id);
