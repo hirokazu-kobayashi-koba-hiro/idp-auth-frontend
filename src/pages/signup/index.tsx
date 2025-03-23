@@ -20,6 +20,8 @@ import { backendUrl, useAppContext } from "@/pages/_app";
 import { useRouter } from "next/router";
 import { Email, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import { SignupStepper } from "@/components/SignupStepper";
+import { useQuery } from "@tanstack/react-query";
+import { Loading } from "@/components/Loading";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -28,10 +30,24 @@ export default function SignUpPage() {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
   );
+  const [message, setMessage] = useState("");
   const router = useRouter();
   const { setUserId } = useAppContext();
   const { id, tenant_id: tenantId } = router.query;
   const theme = useTheme();
+
+  const { data, isPending } = useQuery({
+    queryKey: ["fetchViewData", router.query],
+    queryFn: async () => {
+      if (!router.isReady || Object.keys(router.query).length === 0) return;
+      const response = await fetch(
+        `${backendUrl}/${tenantId}/api/v1/authorizations/${id}/view-data`,
+        { credentials: "include" },
+      );
+      if (!response.ok) throw new Error(response.status.toString());
+      return await response.json();
+    },
+  });
 
   const validate = () => {
     const newErrors: typeof errors = {};
@@ -60,6 +76,7 @@ export default function SignUpPage() {
 
     if (!response.ok) {
       console.error(response.status);
+      setMessage("failed signup request");
       return;
     }
 
@@ -76,10 +93,13 @@ export default function SignUpPage() {
 
     if (!sendingEmailResponse.ok) {
       console.error("sending email verification code is failed");
+      setMessage("sending email verification code is failed");
     }
 
     router.push(`/signup/email?id=${id}&tenant_id=${tenantId}`);
   };
+
+  if (isPending || !data) return <Loading />;
 
   return (
     <Container maxWidth="xs">
@@ -159,6 +179,11 @@ export default function SignUpPage() {
             }}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {message && (
+            <Typography mt={2} color="error" align="center">
+              {message}
+            </Typography>
+          )}
 
           <Box display="flex" justifyContent="flex-end">
             <Button
@@ -174,12 +199,12 @@ export default function SignUpPage() {
           <Divider sx={{ my: 2 }} />
 
           <Typography variant="caption" color="text.secondary" align="center">
-            By signing up, you agree to our
-            <Link href="#" sx={{ fontWeight: 600, mx: 0.5 }}>
+            By continuing, you agree to our
+            <Link href={data.tos_uri} sx={{ fontWeight: 600, mx: 0.5 }}>
               Terms of Use
             </Link>
             and
-            <Link href="#" sx={{ fontWeight: 600, mx: 0.5 }}>
+            <Link href={data.policy_uri} sx={{ fontWeight: 600, mx: 0.5 }}>
               Privacy Policy
             </Link>
             .

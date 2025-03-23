@@ -131,7 +131,7 @@ export default function WebAuthnRegistrationPage() {
           </Box>
 
           {message && (
-            <Typography mt={2} color="primary" align="center">
+            <Typography mt={2} color="error" align="center">
               {message}
             </Typography>
           )}

@@ -23,6 +23,7 @@ import { Email } from "@mui/icons-material";
 export default function EmailVerificationPage() {
   const router = useRouter();
   const [verificationCode, setVerificationCode] = useState("");
+  const [message, setMessage] = useState("");
   const { id, tenant_id: tenantId } = router.query;
   const theme = useTheme();
 
@@ -54,9 +55,10 @@ export default function EmailVerificationPage() {
       },
     );
 
-    if (response.ok) {
-      router.push(`/signup/webauthn?id=${id}&tenant_id=${tenantId}`);
+    if (!response.ok) {
+      setMessage("failed email verification");
     }
+    router.push(`/signup/webauthn?id=${id}&tenant_id=${tenantId}`);
   };
 
   return (
@@ -103,6 +105,12 @@ export default function EmailVerificationPage() {
               ),
             }}
           />
+
+          {message && (
+            <Typography mt={2} color="error" align="center">
+              {message}
+            </Typography>
+          )}
 
           <Box display="flex" justifyContent="flex-end">
             <Button
