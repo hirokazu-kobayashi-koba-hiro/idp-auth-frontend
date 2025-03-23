@@ -29,7 +29,7 @@ const idpConfigs = [
     id: "4cc97cad-34ad-41e7-af53-c4ddee3f786b",
     name: "Yahoo! JAPAN ID",
     logo: "/logos/yahoo_japan_icon_64.png",
-  }
+  },
 ] as IdpConfigs;
 
 export const SsoComponent = () => {

@@ -253,11 +253,11 @@ export default function SignIn() {
           sx={{ mt: 2 }}
         >
           By signing in, you agree to our
-          <Link href={data.tos_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
+          <Link href={data?.tos_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
             Terms of Use
           </Link>
           and
-          <Link href={data.policy_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
+          <Link href={data?.policy_uri} sx={{ fontWeight: "bold", mx: 0.5 }}>
             Privacy Policy
           </Link>
         </Typography>
